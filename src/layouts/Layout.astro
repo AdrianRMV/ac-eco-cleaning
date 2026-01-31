@@ -1,0 +1,95 @@
+---
+interface Props {
+	title: string;
+	description?: string;
+}
+
+const { title, description = "Professional cleaning services for homes, offices, and commercial spaces" } = Astro.props;
+
+import { ViewTransitions } from 'astro:transitions';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content={description} />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" type="image/png" href="/favicon.png" />
+		<link rel="apple-touch-icon" href="/favicon.png" />
+		<meta name="generator" content={Astro.generator} />
+		<ViewTransitions />
+		<title>{title}</title>
+	</head>
+	<body class="min-h-screen bg-gray-50 text-gray-900">
+		<slot />
+	</body>
+</html>
+
+<style is:global>
+	html {
+		font-family: system-ui, sans-serif;
+	}
+
+	/* -------- View Transitions (smooth fade + subtle slide) -------- */
+	::view-transition-image-pair(root) {
+		isolation: isolate;
+	}
+
+	::view-transition-old(root),
+	::view-transition-new(root) {
+		animation-duration: 280ms;
+		animation-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+		animation-fill-mode: both;
+	}
+
+	::view-transition-old(root) {
+		animation-name: page-fade-out;
+	}
+
+	::view-transition-new(root) {
+		animation-name: page-fade-in;
+	}
+
+	@keyframes page-fade-out {
+		from {
+			opacity: 1;
+			transform: translateY(0);
+		}
+		to {
+			opacity: 0;
+			transform: translateY(4px);
+		}
+	}
+
+	@keyframes page-fade-in {
+		from {
+			opacity: 0;
+			transform: translateY(4px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	/* Accessibility: honor reduced motion preferences. */
+	@media (prefers-reduced-motion: reduce) {
+		::view-transition-old(root),
+		::view-transition-new(root) {
+			animation-duration: 1ms;
+			transform: none !important;
+		}
+	}
+</style>
+
+<!-- Consistent scroll behavior: always reset to top on route change. -->
+<script>
+	// Prevent the browser from restoring scroll positions inconsistently.
+	if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
+	// Astro emits this after the new page is swapped in.
+	document.addEventListener('astro:after-swap', () => {
+		window.scrollTo(0, 0);
+	});
+</script>
