@@ -3,29 +3,49 @@ import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 import ReviewSlider from '../components/ReviewSlider.astro';
+
+// Imágenes de fondo optimizadas (Unsplash, w=1920&q=75 para buen balance calidad/peso)
+const heroSlides = [
+	{ src: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=1920&q=75&fit=crop', alt: 'Cleaning service' },
+	{ src: 'https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=1920&q=75&fit=crop', alt: 'Painting service' },
+	{ src: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=1920&q=75&fit=crop', alt: 'Pressure washing' },
+	{ src: 'https://images.unsplash.com/photo-1504309092620-4d0ec7265f9d?w=1920&q=75&fit=crop', alt: 'Construction' },
+];
 ---
 
-<Layout title="AC ECO CLEAN & CONTRUCT">
+<Layout title="AC ECO CLEAN & CONTRUCT LTD">
     <Navbar />
 
-    <!-- Hero Section -->
-    <section
-        class="relative bg-gradient-to-r from-primary to-primary-dark text-white"
-    >
-        <div class="absolute inset-0 bg-black opacity-20"></div>
-        <div
-            class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32"
-        >
-            <div class="text-center">
+    <!-- Hero Section: slider de fondos + parallax -->
+    <section class="hero-section relative min-h-[28rem] sm:min-h-[32rem] flex items-center justify-center overflow-hidden bg-primary">
+        <div id="hero-parallax-layer" class="hero-bg-layer absolute inset-0">
+            {heroSlides.map((slide, i) => (
+                <img
+                    src={slide.src}
+                    alt={slide.alt}
+                    width="1920"
+                    height="1080"
+                    decoding="async"
+                    fetchpriority={i === 0 ? 'high' : 'low'}
+                    loading={i === 0 ? 'eager' : 'lazy'}
+                    class={`hero-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${i === 0 ? 'opacity-100' : 'opacity-0'}`}
+                    data-index={i}
+                />
+            ))}
+        </div>
+        <div class="absolute inset-0 bg-primary/70"></div>
+        <div class="absolute inset-0 bg-black/40"></div>
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32 z-10">
+            <div class="text-center text-white">
                 <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-6">
-                    AC ECO CLEAN & CONTRUCT
+                    AC ECO CLEAN & CONTRUCT LTD
                 </h1>
-                <p
-                    class="text-xl sm:text-2xl mb-8 text-accent-soft max-w-3xl mx-auto"
-                >
-                    Professional cleaning services for homes, offices, and
-                    commercial spaces. Trusted by thousands of satisfied
-                    customers.
+                <p class="text-xl sm:text-2xl mb-8 text-accent-soft max-w-3xl mx-auto">
+                    Cleaning, painting, pressure washing & construction.
+                    Professional services for homes and commercial spaces.
+                </p>
+                <p class="text-sm sm:text-base text-white/80 mb-8 max-w-2xl mx-auto">
+                    Cleaning · Painting · Pressure Washing · Construction
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
                     <a
@@ -45,7 +65,7 @@ import ReviewSlider from '../components/ReviewSlider.astro';
         </div>
     </section>
 
-    <!-- Features Section -->
+    <!-- Services Section -->
     <section class="py-16 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -67,10 +87,9 @@ import ReviewSlider from '../components/ReviewSlider.astro';
                             ></path>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2">Eco-Friendly</h3>
+                    <h3 class="text-xl font-semibold mb-2">Cleaning</h3>
                     <p class="text-gray-600">
-                        We use only environmentally safe cleaning products that
-                        are safe for your family and pets.
+                        Eco-friendly cleaning for homes and commercial spaces.
                     </p>
                 </div>
                 <div class="text-center">
@@ -92,11 +111,10 @@ import ReviewSlider from '../components/ReviewSlider.astro';
                         </svg>
                     </div>
                     <h3 class="text-xl font-semibold mb-2">
-                        Reliable & On-Time
+                        Painting & Pressure Washing
                     </h3>
                     <p class="text-gray-600">
-                        We value your time. Our team arrives promptly and
-                        completes work efficiently.
+                        Interior and exterior painting. Driveways, patios, and facades.
                     </p>
                 </div>
                 <div class="text-center">
@@ -117,9 +135,9 @@ import ReviewSlider from '../components/ReviewSlider.astro';
                             ></path>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2">Fully Insured</h3>
+                    <h3 class="text-xl font-semibold mb-2">Construction</h3>
                     <p class="text-gray-600">
-                        Comprehensive insurance coverage for your peace of mind.
+                        Building and renovation. Quality work, delivered on time.
                     </p>
                 </div>
             </div>
@@ -136,8 +154,7 @@ import ReviewSlider from '../components/ReviewSlider.astro';
                 Ready to Experience the Difference?
             </h2>
             <p class="text-xl mb-8 text-accent-soft">
-                Contact us today for a free consultation and quote. Let us help
-                you maintain a clean, healthy environment.
+                Contact us today for a free consultation and quote.
             </p>
             <a
                 href="/contact"
@@ -150,3 +167,61 @@ import ReviewSlider from '../components/ReviewSlider.astro';
 
     <Footer />
 </Layout>
+
+<style>
+    .hero-section {
+        isolation: isolate;
+    }
+    .hero-bg-layer {
+        will-change: transform;
+    }
+    .hero-slide {
+        pointer-events: none;
+    }
+</style>
+
+<script>
+    (function () {
+        const slides = document.querySelectorAll('.hero-slide');
+        const layer = document.getElementById('hero-parallax-layer');
+        const section = document.querySelector('.hero-section');
+        if (!slides.length || !layer || !section) return;
+
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        let current = 0;
+        const total = slides.length;
+
+        function showSlide(index) {
+            current = (index + total) % total;
+            slides.forEach((el, i) => {
+                el.classList.toggle('opacity-100', i === current);
+                el.classList.toggle('opacity-0', i !== current);
+            });
+        }
+
+        if (!prefersReducedMotion) {
+            setInterval(() => showSlide(current + 1), 5500);
+        }
+
+        function onScroll() {
+            if (prefersReducedMotion) return;
+            const rect = section.getBoundingClientRect();
+            if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+            const scrolled = -rect.top;
+            const y = scrolled * 0.25;
+            layer.style.transform = `translate3d(0, ${y}px, 0)`;
+        }
+
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    onScroll();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }, { passive: true });
+        onScroll();
+    })();
+</script>
