@@ -1,4 +1,4 @@
----
+<!-- ---
 interface Props {
 	title: string;
 	description?: string;
@@ -85,11 +85,11 @@ import { ViewTransitions } from 'astro:transitions';
 
 <!-- Consistent scroll behavior: always reset to top on route change. -->
 <script>
-	// Prevent the browser from restoring scroll positions inconsistently.
-	if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    // Prevent the browser from restoring scroll positions inconsistently.
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 
-	// Astro emits this after the new page is swapped in.
-	document.addEventListener('astro:after-swap', () => {
-		window.scrollTo(0, 0);
-	});
-</script>
+    // Astro emits this after the new page is swapped in.
+    document.addEventListener('astro:after-swap', () => {
+        window.scrollTo(0, 0);
+    });
+</script> -->
